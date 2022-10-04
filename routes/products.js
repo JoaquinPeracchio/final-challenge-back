@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { create, read, update, destroy } = require('')
+const { create, read, update, destroy } = require('../controllers/productsController')
 
 router.post('/', create);
 router.get('/:id', read);
