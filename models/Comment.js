@@ -1,16 +1,16 @@
 const mongoose = require('mongoose')
 
-const schema = new mongoose.Schema({
-    comment: { type: String },
-    user: { type: mongoose.Types.ObjectId, ref: 'users' },
-    product: { type: mongoose.Types.ObjectId, ref: 'products' },
-    date: { type: Number },
+const commentsSchema = new mongoose.Schema({
+    comment: { type: String, required: true },
+    user: { type: mongoose.Types.ObjectId, ref: 'users', required: true },
+    product: { type: mongoose.Types.ObjectId, ref: 'products', required: true },
+    date: { type: Number, required: true },
     // response: { type: String }
 })
 
 const Comment = mongoose.model(
     'comments',
-    schema
+    commentsSchema
 )
 
 module.exports = Comment
