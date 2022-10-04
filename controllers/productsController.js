@@ -67,7 +67,7 @@ const productsController = {
         }
     },
 
-    delete: async (req, res) => {
+    destroy: async (req, res) => {
         const {id} = req.params
         try {
             let product = await Product.findOne({_id:id})
