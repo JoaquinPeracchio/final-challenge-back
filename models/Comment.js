@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
 
 const Comment = mongoose.model(
     'comments',
-    schema
+    commentsSchema
 )
 
 module.exports = Comment
