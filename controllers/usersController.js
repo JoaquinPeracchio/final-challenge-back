@@ -6,7 +6,7 @@ const { exists } = require('../models/User.js');
 const usersController = {
 
     signUp: async (req, res) => {
-        let { name, lastName, photo, mail, password, adress, phone, sells, buys, popularity, comment, from, role } = req.body;
+        let { name, lastName, photo, mail, password, adress, phone, sells,sellspopularity, comment, from, role } = req.body;
         try {
             let user = await User.findOne({ mail });
             if (!user) {
@@ -88,7 +88,78 @@ const usersController = {
         } catch (error) {
             console.log(error)
         }
-    }
+    },
+
+
+    buys: async(req,res) =>{
+        let {id}=req.params
+        let body =req.body
+
+        if(body instanceof array)
+            for(i=0 ; i> body.length ; i++){
+
+                try{
+                let user = await User.findOne(id)
+                if(user){
+                    user.buy.push({
+                        seller:body.idVendedor[i],
+                        nameBuyer :body.nameBuyer[i], 
+                        product:body.prductId[i],
+                        prductName:body.productName[i],
+                        type:body.product.type[i],
+                        price:body.price[i],
+                    })
+        
+                   
+                }
+                }catch(e){
+                    res.status(400).json({
+                        message:"happend a error :" + e
+
+                    })
+                }
+            }
+        
+
+
+    },
+    sells: async(req,res) =>{
+        let {id}=req.params
+        let body =req.body
+
+        if(body instanceof array)
+            for(i=0 ; i> body.length ; i++){
+
+                try{
+                let user = await User.findOne(id)
+                if(user){
+                    user.sell.push({
+                        buyer:body.idSeller[i],
+                        nameBuyer :body.nameSeller[i], 
+                        product:body.prductId[i],
+                        prductName:body.productName[i],
+                        type : body.product.type[i],
+                        price:body.price[i],
+                    })
+
+                    user.stock -=body.quantity[i]
+                    res.status(200).json({
+                        message:'succes'
+                    })
+        
+                }
+                }catch(e){
+                    res.status(400).json({
+                        message:"happend a error :" + e
+
+                    })
+                }
+            }
+        
+
+
+    },
+
 }
 
 module.exports = usersController

@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
     adress: { type: String, required: true },
     phone: { type: Number, required: true },
     popularity: [{ type: Number }],
+    sell:[{type:Object , required:true}],
+    buy:[{type:Object , required:true}],
     from: [{ type: String, required: true }],
     verification: { type: Boolean, required: true },
     uniqueString: { type: String, required: true },
