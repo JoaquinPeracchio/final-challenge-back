@@ -17,14 +17,14 @@ const commentsController = {
             })
         }
     },
-    editComment: async (req, res) => {
+    createResponse: async (req, res) => {
         const { id } = req.params
         const makeChanges = req.body
         try {
             let city = await Comment.updateOne({ _id: id }, makeChanges, { new: true })
             if (city) {
                 res.status(201).json({
-                    message: "The comment was successfully modified.",
+                    message: "The answer was successfully added.",
                     success: true
                 })
             }
@@ -38,7 +38,7 @@ const commentsController = {
         catch (error) {
             console.log(error)
             res.status(400).json({
-                message: "Error modifying this comment.",
+                message: "Error adding response.",
                 success: false
             })
         }
