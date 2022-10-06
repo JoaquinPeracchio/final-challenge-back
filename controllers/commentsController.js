@@ -47,13 +47,14 @@ const commentsController = {
         const { id } = req.params
         try {
             let comment = await Comment.find({ product: id })
-                .populate('user', { name: 1, photo: 1, role: 1 })
-                .populate('seller', { name: 1, photo: 1, role: 1 })
+                // .populate('user', { name: 1, photo: 1, role: 1 })
+                // .populate('seller', { name: 1, photo: 1, role: 1 })
                 .populate('product', { name: 1 })
             // .populate('response', { name: 1, user: 1, product: 1, response: 1 })
             if (comment) {
                 res.status(200).json({
                     menssagge: "You get a comment.",
+                    response: comment,
                     success: true
                 })
             } else {
@@ -74,9 +75,9 @@ const commentsController = {
         const { id } = req.params
         try {
             let comment = await Comment.findOne({ _id: id })
-            // .populate('user', { name: 1, photo: 1, role: 1 })
-            // .populate('seller', { name: 1, photo: 1, role: 1 })
-            // .populate('product', { name: 1 })
+                // .populate('user', { name: 1, photo: 1, role: 1 })
+                // .populate('seller', { name: 1, photo: 1, role: 1 })
+                .populate('product', { name: 1 })
             // .populate('response', { name: 1, user: 1, product: 1, response: 1 })
             if (comment) {
                 res.status(200).json({
