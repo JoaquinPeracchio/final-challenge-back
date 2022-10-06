@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.use('/comments', commentRouter)
-router.use('/users', userRouter)
+router.use('/auth', userRouter)
 router.use('/products', productRouter)
 
 module.exports = router;
