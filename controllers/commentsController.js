@@ -53,13 +53,13 @@ const commentsController = {
             // .populate('response', { name: 1, user: 1, product: 1, response: 1 })
             if (comment) {
                 res.status(200).json({
-                    menssagge: "You get a comment.",
+                    message: "You get a comment.",
                     response: comment,
                     success: true
                 })
             } else {
                 res.status(404).json({
-                    menssagge: "Could not get a comment.",
+                    message: "Could not get a comment.",
                     success: false
                 })
             }
@@ -81,13 +81,13 @@ const commentsController = {
             // .populate('response', { name: 1, user: 1, product: 1, response: 1 })
             if (comment) {
                 res.status(200).json({
-                    menssagge: "You get a comment.",
+                    message: "You get a comment.",
                     response: comment,
                     success: true
                 })
             } else {
                 res.status(404).json({
-                    menssagge: "Could not get a comment.",
+                    message: "Could not get a comment.",
                     success: false
                 })
             }
@@ -105,12 +105,12 @@ const commentsController = {
             let comment = await Comment.deleteOne({ _id: id })
             if (comment) {
                 res.status(200).json({
-                    menssagge: "Comment was successfully deleted.",
+                    message: "Comment was successfully deleted.",
                     success: true
                 })
             } else {
                 res.status(404).json({
-                    menssagge: "Comment not found.",
+                    message: "Comment not found.",
                     success: false
                 })
             }
