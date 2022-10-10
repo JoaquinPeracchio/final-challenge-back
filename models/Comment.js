@@ -6,7 +6,7 @@ const schema = new mongoose.Schema({
     seller: { type: mongoose.Types.ObjectId, ref: 'users' },
     response: { type: String },
     product: { type: mongoose.Types.ObjectId, ref: 'products' },
-    date: { type: Number }
+    date: { type: Date }
 })
 
 const Comment = mongoose.model(
