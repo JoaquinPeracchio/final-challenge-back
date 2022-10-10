@@ -17,14 +17,14 @@ const commentsController = {
             })
         }
     },
-    editComment: async (req, res) => {
+    createResponse: async (req, res) => {
         const { id } = req.params
         const makeChanges = req.body
         try {
             let city = await Comment.updateOne({ _id: id }, makeChanges, { new: true })
             if (city) {
                 res.status(201).json({
-                    message: "The comment was successfully modified.",
+                    message: "The answer was successfully added.",
                     success: true
                 })
             }
@@ -38,7 +38,7 @@ const commentsController = {
         catch (error) {
             console.log(error)
             res.status(400).json({
-                message: "Error modifying this comment.",
+                message: "Error adding response.",
                 success: false
             })
         }
@@ -47,13 +47,14 @@ const commentsController = {
         const { id } = req.params
         try {
             let comment = await Comment.find({ product: id })
-                .populate('user', { name: 1, photo: 1, role: 1 })
-                .populate('seller', { name: 1, photo: 1, role: 1 })
+                // .populate('user', { name: 1, photo: 1, role: 1 })
+                // .populate('seller', { name: 1, photo: 1, role: 1 })
                 .populate('product', { name: 1 })
             // .populate('response', { name: 1, user: 1, product: 1, response: 1 })
             if (comment) {
                 res.status(200).json({
                     menssagge: "You get a comment.",
+                    response: comment,
                     success: true
                 })
             } else {
@@ -74,9 +75,9 @@ const commentsController = {
         const { id } = req.params
         try {
             let comment = await Comment.findOne({ _id: id })
-            // .populate('user', { name: 1, photo: 1, role: 1 })
-            // .populate('seller', { name: 1, photo: 1, role: 1 })
-            // .populate('product', { name: 1 })
+                // .populate('user', { name: 1, photo: 1, role: 1 })
+                // .populate('seller', { name: 1, photo: 1, role: 1 })
+                .populate('product', { name: 1 })
             // .populate('response', { name: 1, user: 1, product: 1, response: 1 })
             if (comment) {
                 res.status(200).json({
