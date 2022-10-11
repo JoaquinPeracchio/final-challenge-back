@@ -6,7 +6,7 @@ const sendMail = require('./sendMail');
 const usersController = {
 
     signUp: async (req, res) => {
-        let { name, lastName, photo, mail, password, adress, phone, from, role } = req.body;
+        let { name, lastName, photo, mail, password, popularity, adress, phone, from, role } = req.body;
         try {
             let user = await User.findOne({ mail });
             if (!user) {
@@ -16,7 +16,7 @@ const usersController = {
                 if (from === 'form') {
                     password = bcryptjs.hashSync(password, 10);
                     user = await new User({ name, lastName, photo, mail, password: [password], adress, phone, popularity, role, from: [from], logged, verification, uniqueString }).save();
-                    sendMail(mail, code);
+                    sendMail(mail, uniqueString);
                     res.status(201).json({
                         message: "user signed up from form",
                         success: true
@@ -91,75 +91,88 @@ const usersController = {
     },
 
 
-    buys: async(req,res) =>{
-        let {id}=req.params
-        let body =req.body
+    buys: async (req, res) => {
+        let { id } = req.params
+        let body = req.body
 
-        if(body instanceof array)
-            for(i=0 ; i> body.length ; i++){
+        if (body instanceof array)
+            for (i = 0; i > body.length; i++) {
 
-                try{
-                let user = await User.findOne(id)
-                if(user){
-                    user.buy.push({
-                        seller:body.idVendedor[i],
-                        nameBuyer :body.nameBuyer[i], 
-                        product:body.prductId[i],
-                        prductName:body.productName[i],
-                        type:body.product.type[i],
-                        price:body.price[i],
-                    })
-        
-                   
-                }
-                }catch(e){
+                try {
+                    let user = await User.findOne(id)
+                    if (user) {
+                        user.buy.push({
+                            seller: body.idVendedor[i],
+                            nameBuyer: body.nameBuyer[i],
+                            product: body.prductId[i],
+                            prductName: body.productName[i],
+                            type: body.product.type[i],
+                            price: body.price[i],
+                        })
+
+
+                    }
+                } catch (e) {
                     res.status(400).json({
-                        message:"happend a error :" + e
+                        message: "an error ocurred :" + e
 
                     })
                 }
             }
-        
+
 
 
     },
-    sells: async(req,res) =>{
-        let {id}=req.params
-        let body =req.body
+    sells: async (req, res) => {
+        let { id } = req.params
+        let body = req.body
 
-        if(body instanceof array)
-            for(i=0 ; i> body.length ; i++){
+        if (body instanceof array)
+            for (i = 0; i > body.length; i++) {
 
-                try{
-                let user = await User.findOne(id)
-                if(user){
-                    user.sell.push({
-                        buyer:body.idSeller[i],
-                        nameBuyer :body.nameSeller[i], 
-                        product:body.prductId[i],
-                        prductName:body.productName[i],
-                        type : body.product.type[i],
-                        price:body.price[i],
-                    })
+                try {
+                    let user = await User.findOne(id)
+                    if (user) {
+                        user.sell.push({
+                            buyer: body.idSeller[i],
+                            nameBuyer: body.nameSeller[i],
+                            product: body.prductId[i],
+                            prductName: body.productName[i],
+                            type: body.product.type[i],
+                            price: body.price[i],
+                        })
 
-                    user.stock -=body.quantity[i]
-                    res.status(200).json({
-                        message:'succes'
-                    })
-        
-                }
-                }catch(e){
+                        user.stock -= body.quantity[i]
+                        res.status(200).json({
+                            message: 'success'
+                        })
+
+                    }
+                } catch (e) {
                     res.status(400).json({
-                        message:"happend a error :" + e
+                        message: "an error ocurred :" + e
 
                     })
                 }
             }
-        
-
-
     },
 
+    emailVerificaiton: async (req, res) => {
+        const { uniqueString } = req.params;
+        try {
+            let user = await User.findOne({ uniqueString });
+            if (user) {
+                user.verification = true;
+                await user.save();
+                res.redirect('https://www.youtube.com');
+                res.status(200).json({ message: 'email verified correctly' })
+            } else {
+                res.status(404).json({ message: 'email has not been confirmed yet' })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    },
 }
 
 module.exports = usersController
