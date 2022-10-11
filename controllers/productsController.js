@@ -17,19 +17,37 @@ const productsController = {
         }
     },
 
+    all: async (req, res) => {
+        let query = {}
+        
+        if (req.query.product) {
+            query.product = req.query.product
+            let regExp = new RegExp(`^${query.product}`, "i")
+            query.product = regExp
+        }
+
+        try {
+            let product = await Product.find(query)
+            res.status(200).json(product)
+        } catch (error) {
+            console.log(error)
+            res.status(500).json()
+        }
+    },
+
     read: async (req, res) => {
         const { id } = req.params
         try {
             let product = await Product.findOne({_id:id})
             if (product) {
                 res.status(200).json({
-                    menssagge: "You get a product",
+                    message: "You get a product",
                     response: product,
                     success: true
                 })
             } else {
                 res.status(404).json({
-                    menssagge: "Couldn't get a product",
+                    message: "Couldn't get a product",
                     success: false
                 })
             }
