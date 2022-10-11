@@ -1,12 +1,12 @@
-const User = require('../models/User.js');
+const User = require('../models/User.js')
 const crypto = require('crypto');
 const bcryptjs = require('bcryptjs');
-const { exists } = require('../models/User.js');
+const sendMail = require('./sendMail');
 
 const usersController = {
 
     signUp: async (req, res) => {
-        let { name, lastName, photo, mail, password, adress, phone, sells,sellspopularity, comment, from, role } = req.body;
+        let { name, lastName, photo, mail, password, adress, phone, from, role } = req.body;
         try {
             let user = await User.findOne({ mail });
             if (!user) {
@@ -16,7 +16,7 @@ const usersController = {
                 if (from === 'form') {
                     password = bcryptjs.hashSync(password, 10);
                     user = await new User({ name, lastName, photo, mail, password: [password], adress, phone, popularity, role, from: [from], logged, verification, uniqueString }).save();
-                    // sendMail(mail, code);
+                    sendMail(mail, code);
                     res.status(201).json({
                         message: "user signed up from form",
                         success: true
