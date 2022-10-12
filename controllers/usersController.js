@@ -41,16 +41,26 @@ const usersController = {
 
     signIn: async (req, res) => {
         let { mail, password } = req.body;
+        let user = await User.findOne({ mail });
         try {
-            let user = await User.findOne({ mail });
             if (!user) {
                 res.status(404).json({ message: `Please check your credentials`, success: false });
             } else {
                 let checkPass = user.password.filter(passwordElem => bcryptjs.compareSync(password, passwordElem))
                 if (mail === user.mail && checkPass.length > 0) {
+                    const loginUser = {
+                        _id: user._id,
+                        name: user.name,
+                        lastName: user.lastName,
+                        photo: user.photo,
+                        mail: user.mail,
+                        adress: user.adress,
+                        popularity: user.popularity,
+                        role: user.role
+                    }
                     user.logged = true;
                     await user.save();
-                    res.status(200).json({ message: `Welcome ${user.name} ${user.lastName}`, success: true })
+                    res.status(200).json({ message: `Welcome ${user.name} ${user.lastName}`, response: { user: loginUser }, success: true })
                 }
             }
         } catch (error) {
