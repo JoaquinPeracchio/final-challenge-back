@@ -35,6 +35,23 @@ const productsController = {
         }
     },
 
+    readFromUser: async (req, res) => {
+        const { id } = req.params
+        try {
+            let product = await Product.find({ user: id })
+            .populate('user', { name: 1 })
+            if (product) {
+                res.status(200).json({ message: 'product found', response: product, success: true })
+            } else {
+                res.status(404).json({ message: 'product not found', success: false })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ message: 'Error', success: false })
+        }
+    },
+
+
     read: async (req, res) => {
         const { id } = req.params
         try {

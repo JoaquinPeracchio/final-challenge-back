@@ -102,12 +102,17 @@ const usersController = {
                     let user = await User.findOne(id)
                     if (user) {
                         user.buy.push({
-                            seller: body.idVendedor[i],
-                            nameBuyer: body.nameBuyer[i],
-                            product: body.prductId[i],
-                            prductName: body.productName[i],
-                            type: body.product.type[i],
+                            seller: body.seller[i],
+                            nameBuyer: body.buyer[i],
+                            product: body.idProd[i],
+                            prductName: body.name[i],
+                            photoProd:body.photo[i],
+                            quantity: body.quantitymin[i],
                             price: body.price[i],
+                        })
+
+                        res.status(200).json({
+                            message: 'success'
                         })
 
 
@@ -134,15 +139,15 @@ const usersController = {
                     let user = await User.findOne(id)
                     if (user) {
                         user.sell.push({
-                            buyer: body.idSeller[i],
-                            nameBuyer: body.nameSeller[i],
-                            product: body.prductId[i],
-                            prductName: body.productName[i],
-                            type: body.product.type[i],
+                            seller: body.seller[i],
+                            product: body.idProd[i],
+                            prductName: body.name[i],
+                            photoProd:body.photo[i],
+                            quantity: body.quantitymin[i],
                             price: body.price[i],
                         })
 
-                        user.stock -= body.quantity[i]
+                       
                         res.status(200).json({
                             message: 'success'
                         })
