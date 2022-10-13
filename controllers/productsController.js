@@ -20,20 +20,32 @@ const productsController = {
     all: async (req, res) => {
         let query = {}
         
+        // if (req.query.product) {
+        //     query.product = req.query.product
+        //     let regExp = new RegExp(`^${query.product}`, "i")
+        //     query.product = regExp
+        // }
+
+
+
         if (req.query.product) {
-            query.product = req.query.product
-            let regExp = new RegExp(`^${query.product}`, "i")
-            query.product = regExp
+            
+            query.name =  { $regex: '^' + req.query.product.trim(), $options: 'i' };
         }
 
+        console.log(query)
+
         try {
-            let product = await Product.find(query)
-            res.status(200).json(product)
+            let producto = await Product.find(query)
+                .populate('user',{name:1,popularity:1})
+                
+            res.status(200).json(producto)
         } catch (error) {
             console.log(error)
             res.status(500).json()
         }
     },
+    
 
     readFromUser: async (req, res) => {
         const { id } = req.params
