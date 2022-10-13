@@ -188,6 +188,33 @@ const usersController = {
             console.log(error)
         }
     },
+
+    readOne: async(req, res) => {
+        const {id} = req.params
+        try {
+            let user = await User.findOne({_id:id})
+            .populate('user',{name:1}, {photo:1})
+            if(user){
+                res.status(200).json({
+                    message: "You get one userr",
+                     response: user,
+                    success: true
+                 })
+            } else {
+                res.status(404).json({
+                    message: "could't find user",
+                    success: false
+                 })
+
+            }
+          } catch(error) {
+                console.log(error)
+                res.status(400).json({
+                message: "error NO",
+                success: false
+            })
+      }
+    }
 }
 
 module.exports = usersController
