@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     password: [{ type: String, required: true }],
     adress: { type: String, required: true },
     phone: { type: Number, required: true },
-    popularity: [{ type: Number }],
+    popularity: { type: Number },
     sell:[{type:Object , required:true}],
     buy:[{type:Object , required:true}],
     from: [{ type: String, required: true }],

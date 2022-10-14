@@ -56,7 +56,9 @@ const usersController = {
                         mail: user.mail,
                         adress: user.adress,
                         popularity: user.popularity,
-                        role: user.role
+                        role: user.role,
+                        buy: user.buy,
+                        sell : user.sell,
                     }
                     user.logged = true;
                     await user.save();
